@@ -5,20 +5,28 @@ import 'package:mespot/style/typography/mespot_text_styles.dart';
 class MespotTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      colorSchemeSeed: MespotColors.pink.color,
       brightness: Brightness.light,
       textTheme: _textTheme,
       useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: MespotColors.green.color,
+        surface: Colors.white,
+        brightness: Brightness.light,
+      ),
+      scaffoldBackgroundColor: MespotColors.lightbgColor.color,
     );
   }
 
   static ThemeData get darkTheme {
     return ThemeData(
-      colorSchemeSeed: MespotColors.pink.color,
-      brightness: Brightness.dark,
-      textTheme: _textTheme,
-      useMaterial3: true,
-    );
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: MespotColors.green.color,
+          surface: MespotColors.containerDarkBgColor.color,
+          brightness: Brightness.dark,
+        ),
+        textTheme: _textTheme,
+        useMaterial3: true,
+        scaffoldBackgroundColor: MespotColors.blackbgColor.color);
   }
 
   static TextTheme get _textTheme {

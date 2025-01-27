@@ -61,19 +61,19 @@ flutter:
   fonts:
     - family: Manrope
       fonts:
-        - asset: assets/fonts/Manrope-Bold.ttf
+        - asset: assets/fonts/Manrope-ExtraBold.ttf
           weight: 700
-        - asset: assets/fonts/Manrope-SemiBold.ttf
+        - asset: assets/fonts/Manrope-Bold.ttf
           weight: 600
-        - asset: assets/fonts/Manrope-Medium.ttf
+        - asset: assets/fonts/Manrope-SemiBold.ttf
           weight: 500
-        - asset: assets/fonts/Manrope-Regular.ttf
+        - asset: assets/fonts/Manrope-Medium.ttf
           weight: 400
-        - asset: assets/fonts/Manrope-Light.ttf
+        - asset: assets/fonts/Manrope-Regular.ttf
           weight: 300
-        - asset: assets/fonts/Manrope-ExtraLight.ttf
+        - asset: assets/fonts/Manrope-Light.ttf
           weight: 200
-        - asset: assets/fonts/Manrope-Thin.ttf
+        - asset: assets/fonts/Manrope-ExtraLight.ttf
           weight: 100
 
   # To add assets to your application, add an assets section, like this:
