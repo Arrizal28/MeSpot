@@ -27,7 +27,7 @@ class Restaurant {
   final String pictureId;
   final List<Category> categories;
   final Menus menus;
-  final double rating;
+  final num rating;
   final List<CustomerReview> customerReviews;
 
   Restaurant({
@@ -54,7 +54,7 @@ class Restaurant {
       categories: List<Category>.from(
           json['categories'].map((x) => Category.fromJson(x))),
       menus: Menus.fromJson(json['menus']),
-      rating: json['rating'].toDouble(),
+      rating: num.parse(json['rating'].toString()),
       customerReviews: List<CustomerReview>.from(
           json['customerReviews'].map((x) => CustomerReview.fromJson(x))),
     );

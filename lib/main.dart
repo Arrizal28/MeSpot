@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/data/api/api_services.dart';
+import 'package:mespot/provider/detail/add_review_provider.dart';
 import 'package:mespot/provider/detail/restaurant_detail_provider.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
 import 'package:mespot/provider/main/index_nav_provider.dart';
@@ -25,9 +26,13 @@ void main() {
             context.read<ApiServices>(),
           ),
         ),
-        // todo-04-inject-02: register the tourism detail provider
         ChangeNotifierProvider(
           create: (context) => RestaurantDetailProvider(
+            context.read<ApiServices>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddReviewProvider(
             context.read<ApiServices>(),
           ),
         ),
