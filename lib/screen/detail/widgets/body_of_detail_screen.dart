@@ -37,7 +37,7 @@ class BodyOfDetailScreen extends StatelessWidget {
                   color: Colors.black.withOpacity(0.10),
                   blurRadius: 4,
                   spreadRadius: 0,
-                  offset: const Offset(0, 4), // Posisi shadow (x, y)
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),

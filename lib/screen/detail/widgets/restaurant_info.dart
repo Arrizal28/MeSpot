@@ -29,7 +29,7 @@ class RestaurantInfo extends StatelessWidget {
               color: Colors.black.withOpacity(0.10),
               blurRadius: 4,
               spreadRadius: 0,
-              offset: const Offset(0, 4), // Posisi shadow (x, y)
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -64,11 +64,10 @@ class RestaurantInfo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  const Icon(Icons.star,
-                      color: Colors.amber, size: 24), // Gambar bintang
+                  const Icon(Icons.star, color: Colors.amber, size: 24),
                   const SizedBox(width: 4),
                   Text(
-                    "$rating (43 Reviews)", // Menampilkan rating dengan 1 desimal
+                    "$rating (43 Reviews)",
                     style: MespotTextStyles.titleSmall,
                   ),
                 ],
@@ -78,11 +77,10 @@ class RestaurantInfo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  const Icon(Icons.location_on_outlined,
-                      size: 24), // Gambar bintang
+                  const Icon(Icons.location_on_outlined, size: 24),
                   const SizedBox(width: 4),
                   Text(
-                    address, // Menampilkan rating dengan 1 desimal
+                    address,
                     style: MespotTextStyles.titleSmall,
                   ),
                 ],

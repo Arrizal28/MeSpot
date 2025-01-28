@@ -88,7 +88,6 @@ class _ReviewFormState extends State<ReviewForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                // If the form is valid, display a Snackbar.
                 _submitReview();
                 widget.onReviewSubmitted();
               }

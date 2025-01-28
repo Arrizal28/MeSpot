@@ -23,7 +23,7 @@ class RestaurantList extends StatelessWidget {
                   color: Colors.black.withOpacity(0.10),
                   blurRadius: 4,
                   spreadRadius: 0,
-                  offset: const Offset(0, 4), // Posisi shadow (x, y)
+                  offset: const Offset(0, 4),
                 ),
               ]),
           child: Column(
@@ -51,12 +51,10 @@ class RestaurantList extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.bold)),
                   Row(
                     children: [
-                      const Icon(Icons.star,
-                          color: Colors.amber, size: 24), // Gambar bintang
+                      const Icon(Icons.star, color: Colors.amber, size: 24),
                       const SizedBox(width: 4),
                       Text(
-                        restaurant.rating
-                            .toString(), // Menampilkan rating dengan 1 desimal
+                        restaurant.rating.toString(),
                         style: MespotTextStyles.titleSmall
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -70,10 +68,9 @@ class RestaurantList extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.location_on,
-                      color: MespotColors.green.color,
-                      size: 24), // Gambar bintang
+                      color: MespotColors.green.color, size: 24),
                   const SizedBox(width: 4),
-                  Text(restaurant.city, // Menampilkan rating dengan 1 desimal
+                  Text(restaurant.city,
                       style: MespotTextStyles.titleSmall
                           .copyWith(color: MespotColors.green.color)),
                 ],
