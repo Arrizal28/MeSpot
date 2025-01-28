@@ -3,8 +3,8 @@ import 'package:mespot/provider/home/restaurant_list_provider.dart';
 import 'package:mespot/screen/home/widgets/restaurant_list.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/static/restaurant_list_result_state.dart';
-import 'package:mespot/style/colors/mespot_colors.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';
+import 'package:mespot/widgets/mespot_header.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,18 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView(
           children: [
-            const SizedBox(height: 20),
-            Text("Craving", style: MespotTextStyles.displayMedium),
-            Text(
-              "Something",
-              style: MespotTextStyles.displayMedium
-                  .copyWith(color: MespotColors.green.color),
-            ),
-            Text("Special Today?", style: MespotTextStyles.displayMedium),
-            Text(
-              "Explore the best restaurants near you",
-              style: MespotTextStyles.labelLarge
-                  .copyWith(color: MespotColors.green.color),
+            const MespotHeader(
+              titleOne: 'Craving',
+              titleTwo: "Something",
+              titleThree: "Special Today?",
+              titleSmall: "Explore the best restaurants near you",
             ),
             const SizedBox(height: 20),
             Text(

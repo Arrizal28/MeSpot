@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum MespotColors {
   green("green", Color(0xFF77ad33)),
   lightbgColor("lightbgColor", Color(0xFFf9f9f9)),
-  blackbgColor("blackbgColor", Color(0xFF1F1413)),
+  blackbgColor("blackbgColor", Color(0xFF1f1f1f)),
   containerDarkBgColor("containerblackbgColor", Color(0xFF4A4A4A));
 
   const MespotColors(this.name, this.color);
