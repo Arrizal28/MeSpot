@@ -11,16 +11,14 @@ class SearchScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView(
-          children: [
-            const MespotHeader(
+          children: const [
+            MespotHeader(
               titleOne: 'What',
               titleTwo: "Are You",
               titleThree: "Looking For?",
             ),
-            const SizedBox(height: 20),
-            MespotSearchTextField(onSearch: (query) {
-              print('User is searching for: $query');
-            }),
+            SizedBox(height: 20),
+            MespotSearchTextField(),
           ],
         ),
       ),

@@ -1,52 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/data/api/api_services.dart';
+import 'package:mespot/static/add_review_result_state.dart';
 
 class AddReviewProvider extends ChangeNotifier {
   final ApiServices _apiServices;
-  bool _isLoading = false;
-  String? _error;
 
-  AddReviewProvider(this._apiServices);
+  AddReviewProvider(
+    this._apiServices,
+  );
 
-  bool get isLoading => _isLoading;
-  String? get error => _error;
+  AddReviewResultState _resultState = AddReviewNoneState();
 
-  Future<bool> addReview(
-    String id,
-    String name,
-    String review,
-  ) async {
+  AddReviewResultState get resultState => _resultState;
+
+  Future<void> fetchAddReview(String id, String name, String review) async {
     try {
-      _isLoading = true;
-      _error = null;
+      _resultState = AddReviewLoadingState();
       notifyListeners();
 
-      final result = await _apiServices.addReview(
-        id: id,
-        name: name,
-        review: review,
-      );
+      final result =
+          await _apiServices.addReview(id: id, name: name, review: review);
 
-      _isLoading = false;
-
-      if (result.error) {
-        _error = result.message;
+      if (result.error == true) {
+        _resultState = AddReviewErrorState(result.message);
         notifyListeners();
-        return false;
+      } else {
+        _resultState = AddReviewLoadedState(result);
+        notifyListeners();
       }
-
+    } on Exception catch (e) {
+      _resultState = AddReviewErrorState(e.toString());
       notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _error = e.toString();
-      notifyListeners();
-      return false;
     }
-  }
-
-  void resetError() {
-    _error = null;
-    notifyListeners();
   }
 }

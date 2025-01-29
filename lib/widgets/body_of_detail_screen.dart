@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/data/model/restaurant_detail_response.dart';
-import 'package:mespot/screen/detail/widgets/restaurant_info.dart';
-import 'package:mespot/screen/detail/widgets/review_form.dart';
-import 'package:mespot/screen/detail/widgets/review_item.dart';
+import 'package:mespot/widgets/restaurant_info.dart';
+import 'package:mespot/widgets/review_item.dart';
 import 'package:mespot/style/colors/mespot_colors.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';
 
 class BodyOfDetailScreen extends StatelessWidget {
   final Restaurant restaurant;
-  final VoidCallback onReviewSubmitted;
-  const BodyOfDetailScreen(
-      {super.key, required this.restaurant, required this.onReviewSubmitted});
+  const BodyOfDetailScreen({
+    super.key,
+    required this.restaurant,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         RestaurantInfo(
-          name: restaurant.name,
-          city: restaurant.city,
-          address: restaurant.address,
-          rating: restaurant.rating,
+          restaurantDetail: restaurant,
         ),
         const SizedBox(
           height: 24,
@@ -133,32 +130,6 @@ class BodyOfDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    "Drinks",
-                    style: MespotTextStyles.titleLarge
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    "Add Review",
-                    style: MespotTextStyles.titleLarge
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  ReviewForm(
-                    restaurantId: restaurant.id,
-                    onReviewSubmitted: onReviewSubmitted,
                   ),
                   const SizedBox(
                     height: 12,

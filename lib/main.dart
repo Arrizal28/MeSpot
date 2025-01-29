@@ -4,6 +4,8 @@ import 'package:mespot/provider/detail/add_review_provider.dart';
 import 'package:mespot/provider/detail/restaurant_detail_provider.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
 import 'package:mespot/provider/main/index_nav_provider.dart';
+import 'package:mespot/provider/search/search_restaurant_provider.dart';
+import 'package:mespot/screen/addreview/add_review_screen.dart';
 import 'package:mespot/screen/detail/detail_screen.dart';
 import 'package:mespot/screen/main/main_screen.dart';
 import 'package:mespot/screen/search/search_screen.dart';
@@ -36,6 +38,11 @@ void main() {
             context.read<ApiServices>(),
           ),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SearchRestaurantProvider(
+            context.read<ApiServices>(),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -60,6 +67,10 @@ class MyApp extends StatelessWidget {
                   as Map<String, dynamic>,
             ),
         NavigationRoute.searchRoute.name: (context) => const SearchScreen(),
+        NavigationRoute.addRoute.name: (context) => AddReviewScreen(
+              restaurantId:
+                  ModalRoute.of(context)!.settings.arguments as String,
+            ),
       },
     );
   }

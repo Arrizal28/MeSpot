@@ -28,25 +28,29 @@ class ReviewItem extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              name,
-              style: MespotTextStyles.titleSmall.copyWith(
-                  color: MespotColors.green.color, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              date,
-              style: MespotTextStyles.titleSmall,
-            ),
-          ],
+        Text(
+          name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: MespotTextStyles.titleSmall.copyWith(
+              color: MespotColors.green.color, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Text(
+          date,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: MespotTextStyles.titleSmall,
         ),
         const SizedBox(
           height: 12,
         ),
         Text(
           review,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
           style: MespotTextStyles.titleSmall,
         ),
         const SizedBox(

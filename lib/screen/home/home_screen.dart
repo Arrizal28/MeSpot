@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
-import 'package:mespot/screen/home/widgets/restaurant_list.dart';
+import 'package:mespot/widgets/restaurant_list.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/static/restaurant_list_result_state.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mespot/data/model/restaurant_detail_response.dart';
 import 'package:mespot/style/colors/mespot_colors.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';
 
 class RestaurantInfo extends StatelessWidget {
-  final String name;
-  final String city;
-  final String address;
-  final num rating;
+  final Restaurant restaurantDetail;
 
-  const RestaurantInfo(
-      {super.key,
-      required this.name,
-      required this.city,
-      required this.address,
-      required this.rating});
+  const RestaurantInfo({
+    super.key,
+    required this.restaurantDetail,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +38,7 @@ class RestaurantInfo extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                name,
+                restaurantDetail.name,
                 style: MespotTextStyles.titleLarge,
               ),
             ),
@@ -52,7 +48,7 @@ class RestaurantInfo extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                city,
+                restaurantDetail.city,
                 style: MespotTextStyles.titleSmall
                     .copyWith(color: MespotColors.green.color),
               ),
@@ -67,7 +63,7 @@ class RestaurantInfo extends StatelessWidget {
                   const Icon(Icons.star, color: Colors.amber, size: 24),
                   const SizedBox(width: 4),
                   Text(
-                    "$rating (43 Reviews)",
+                    "${restaurantDetail.rating} (${restaurantDetail.customerReviews.length} Reviews)",
                     style: MespotTextStyles.titleSmall,
                   ),
                 ],
@@ -80,7 +76,7 @@ class RestaurantInfo extends StatelessWidget {
                   const Icon(Icons.location_on_outlined, size: 24),
                   const SizedBox(width: 4),
                   Text(
-                    address,
+                    restaurantDetail.address,
                     style: MespotTextStyles.titleSmall,
                   ),
                 ],

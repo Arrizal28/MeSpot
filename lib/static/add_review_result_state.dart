@@ -1,3 +1,4 @@
+import 'package:mespot/data/model/add_review_response.dart';
 import 'package:mespot/data/model/restaurant_detail_response.dart';
 
 sealed class AddReviewResultState {}
@@ -13,7 +14,7 @@ class AddReviewErrorState extends AddReviewResultState {
 }
 
 class AddReviewLoadedState extends AddReviewResultState {
-  final List<CustomerReview> data;
+  final AddReviewResponse data;
 
   AddReviewLoadedState(this.data);
 }
