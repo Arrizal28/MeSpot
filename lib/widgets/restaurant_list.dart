@@ -31,14 +31,20 @@ class RestaurantList extends StatelessWidget {
             children: [
               Hero(
                 tag: restaurant.pictureId,
-                child: Container(
+                placeholderBuilder: (context, heroSize, child) {
+                  return child;
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
                     height: 180,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}")))),
+                    width: double.infinity,
+                    child: Image.network(
+                      "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 10,

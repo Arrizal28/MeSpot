@@ -66,37 +66,98 @@ class _MespotSearchTextFieldState extends State<MespotSearchTextField> {
                   child: CircularProgressIndicator(),
                 ),
               SearchRestaurantLoadedState(data: var searchRestaurant) =>
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: searchRestaurant.length,
-                  itemBuilder: (context, index) {
-                    final restaurant = searchRestaurant[index];
+                searchRestaurant.isEmpty
+                    ? Center(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 52,
+                            ),
+                            Image.asset(
+                              "assets/images/error.jpg",
+                              width: 198,
+                              height: 198,
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            const Text(
+                              "No restaurants found.",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: searchRestaurant.length,
+                        itemBuilder: (context, index) {
+                          final restaurant = searchRestaurant[index];
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: RestaurantList(
-                        restaurant: restaurant,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            NavigationRoute.detailRoute.name,
-                            arguments: {
-                              'id': restaurant.id,
-                              'pictureId': restaurant.pictureId,
-                            },
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: RestaurantList(
+                              restaurant: restaurant,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  NavigationRoute.detailRoute.name,
+                                  arguments: {
+                                    'id': restaurant.id,
+                                    'pictureId': restaurant.pictureId,
+                                  },
+                                );
+                              },
+                            ),
                           );
                         },
                       ),
-                    );
-                  },
-                ),
-              SearchRestaurantErrorState(error: var message) => Center(
-                  child: Text(
-                    message,
+              SearchRestaurantErrorState() => Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 52,
+                      ),
+                      Image.asset(
+                        "assets/images/error.jpg",
+                        width: 198,
+                        height: 198,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const Text(
+                        "Oops! Something went wrong.",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ),
-              _ => const SizedBox(),
+              _ => Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 52,
+                      ),
+                      Image.asset(
+                        "assets/images/searchnonstate.jpg",
+                        width: 198,
+                        height: 198,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const Text(
+                        "Search for anything...",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
             };
           },
         ),

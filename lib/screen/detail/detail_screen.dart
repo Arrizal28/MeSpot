@@ -56,9 +56,15 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             Hero(
               tag: widget.args["pictureId"],
-              child: Image.network(
-                "https://restaurant-api.dicoding.dev/images/medium/${widget.args["pictureId"]}",
-                fit: BoxFit.cover,
+              placeholderBuilder: (context, heroSize, child) {
+                return child;
+              },
+              child: SizedBox(
+                width: double.infinity,
+                child: Image.network(
+                  "https://restaurant-api.dicoding.dev/images/medium/${widget.args["pictureId"]}",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -74,8 +80,27 @@ class _DetailScreenState extends State<DetailScreen> {
                     BodyOfDetailScreen(
                       restaurant: restaurant,
                     ),
-                  RestaurantDetailErrorState(error: var message) => Center(
-                      child: Text(message),
+                  RestaurantDetailErrorState() => Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 52,
+                          ),
+                          Image.asset(
+                            "assets/images/error.jpg",
+                            width: 198,
+                            height: 198,
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Text(
+                            "Oops! Something went wrong.",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   _ => const SizedBox(),
                 };

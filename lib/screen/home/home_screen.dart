@@ -74,9 +74,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                  RestaurantListErrorState(error: var message) => Center(
-                      child: Text(
-                        message,
+                  RestaurantListErrorState() => Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 52,
+                          ),
+                          Image.asset(
+                            "assets/images/error.jpg",
+                            width: 198,
+                            height: 198,
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Text(
+                            "Oops! Something went wrong.",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                   _ => const SizedBox(),
