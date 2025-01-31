@@ -60,6 +60,9 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
+            const SizedBox(
+              height: 26,
+            ),
             Form(
               key: _formKey,
               child: Column(
