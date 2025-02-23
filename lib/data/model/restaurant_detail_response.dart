@@ -1,7 +1,9 @@
+import 'package:mespot/data/model/restaurant.dart';
+
 class RestaurantDetailResponse {
   final bool error;
   final String message;
-  final Restaurant restaurant;
+  final RestaurantDetail restaurant;
 
   RestaurantDetailResponse({
     required this.error,
@@ -13,12 +15,12 @@ class RestaurantDetailResponse {
     return RestaurantDetailResponse(
       error: json['error'],
       message: json['message'],
-      restaurant: Restaurant.fromJson(json['restaurant']),
+      restaurant: RestaurantDetail.fromJson(json['restaurant']),
     );
   }
 }
 
-class Restaurant {
+class RestaurantDetail {
   final String id;
   final String name;
   final String description;
@@ -30,7 +32,7 @@ class Restaurant {
   final num rating;
   final List<CustomerReview> customerReviews;
 
-  Restaurant({
+  RestaurantDetail({
     required this.id,
     required this.name,
     required this.description,
@@ -43,8 +45,8 @@ class Restaurant {
     required this.customerReviews,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) {
-    return Restaurant(
+  factory RestaurantDetail.fromJson(Map<String, dynamic> json) {
+    return RestaurantDetail(
       id: json['id'],
       name: json['name'],
       description: json['description'],
@@ -59,6 +61,32 @@ class Restaurant {
           json['customerReviews'].map((x) => CustomerReview.fromJson(x))),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'city': city,
+      'address': address,
+      'pictureId': pictureId,
+      'categories': categories.map((x) => x.toJson()).toList(),
+      'menus': menus.toJson(),
+      'rating': rating,
+      'customerReviews': customerReviews.map((x) => x.toJson()).toList(),
+    };
+  }
+
+  Restaurant toRestaurant() {
+    return Restaurant(
+      id: id,
+      name: name,
+      description: description,
+      pictureId: pictureId,
+      city: city,
+      rating: rating,
+    );
+  }
 }
 
 class Category {
@@ -70,6 +98,12 @@ class Category {
     return Category(
       name: json['name'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
   }
 }
 
@@ -87,6 +121,13 @@ class Menus {
           List<MenuItem>.from(json['drinks'].map((x) => MenuItem.fromJson(x))),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'foods': foods.map((x) => x.toJson()).toList(),
+      'drinks': drinks.map((x) => x.toJson()).toList(),
+    };
+  }
 }
 
 class MenuItem {
@@ -98,6 +139,12 @@ class MenuItem {
     return MenuItem(
       name: json['name'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
   }
 }
 
@@ -118,5 +165,13 @@ class CustomerReview {
       review: json['review'],
       date: json['date'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'review': review,
+      'date': date,
+    };
   }
 }

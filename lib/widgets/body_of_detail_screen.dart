@@ -6,7 +6,7 @@ import 'package:mespot/style/colors/mespot_colors.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';
 
 class BodyOfDetailScreen extends StatelessWidget {
-  final Restaurant restaurant;
+  final RestaurantDetail restaurant;
   const BodyOfDetailScreen({
     super.key,
     required this.restaurant,
@@ -57,6 +57,7 @@ class BodyOfDetailScreen extends StatelessWidget {
                   Text(
                     restaurant.description,
                     style: MespotTextStyles.titleSmall,
+                    textAlign: TextAlign.justify,
                   ),
                   const SizedBox(
                     height: 12,

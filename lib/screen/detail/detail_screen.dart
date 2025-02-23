@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mespot/data/model/restaurant.dart';
+import 'package:mespot/provider/detail/favorite_icon_provider.dart';
 import 'package:mespot/provider/detail/restaurant_detail_provider.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/widgets/body_of_detail_screen.dart';
 import 'package:mespot/static/restaurant_detail_result_state.dart';
+import 'package:mespot/widgets/icon_favorite.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
-  final Map<String, dynamic> args;
+  // final Map<String, dynamic> args;
+  final Restaurant restaurant;
   const DetailScreen({
     super.key,
-    required this.args,
+    required this.restaurant,
   });
 
   @override
@@ -23,7 +27,7 @@ class _DetailScreenState extends State<DetailScreen> {
     Future.microtask(() {
       context
           .read<RestaurantDetailProvider>()
-          .fetchRestaurantDetail(widget.args["id"]);
+          .fetchRestaurantDetail(widget.restaurant.id);
     });
   }
 
@@ -37,12 +41,12 @@ class _DetailScreenState extends State<DetailScreen> {
         onPressed: () async {
           final result = await Navigator.pushNamed(
               context, NavigationRoute.addRoute.name,
-              arguments: widget.args["id"]);
+              arguments: widget.restaurant.id);
 
           if (result == true && mounted) {
             context
                 .read<RestaurantDetailProvider>()
-                .fetchRestaurantDetail(widget.args["id"]);
+                .fetchRestaurantDetail(widget.restaurant.id);
           }
         },
         shape: RoundedRectangleBorder(
@@ -54,21 +58,65 @@ class _DetailScreenState extends State<DetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Hero(
-              tag: widget.args["pictureId"],
-              placeholderBuilder: (context, heroSize, child) {
-                return child;
-              },
-              child: SizedBox(
-                width: double.infinity,
-                child: Image.network(
-                  "https://restaurant-api.dicoding.dev/images/medium/${widget.args["pictureId"]}",
-                  fit: BoxFit.cover,
+            Stack(
+              clipBehavior: Clip
+                  .none, // Penting! Agar widget child bisa keluar dari bounds Stack
+              children: [
+                Hero(
+                  tag: widget.restaurant.pictureId,
+                  placeholderBuilder: (context, heroSize, child) {
+                    return child;
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Image.network(
+                      "https://restaurant-api.dicoding.dev/images/medium/${widget.restaurant.pictureId}",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  bottom:
+                      -20, // Nilai negatif untuk membuat icon keluar dari image
+                  right: 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: ChangeNotifierProvider(
+                      create: (context) => FavoriteIconProvider(),
+                      child: Consumer<RestaurantDetailProvider>(
+                        builder: (context, value, child) {
+                          return switch (value.resultState) {
+                            RestaurantDetailLoadedState(data: var restaurant) =>
+                              IconFavorite(
+                                  restaurant: Restaurant(
+                                      id: restaurant.id,
+                                      name: restaurant.name,
+                                      description: restaurant.description,
+                                      pictureId: restaurant.pictureId,
+                                      city: restaurant.city,
+                                      rating: restaurant.rating)),
+                            _ => const SizedBox(),
+                          };
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
-              height: 12,
+              height: 24,
             ),
             Consumer<RestaurantDetailProvider>(
               builder: (context, value, child) {

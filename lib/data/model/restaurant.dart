@@ -36,4 +36,15 @@ class Restaurant {
       _ => throw const FormatException('Failed to load restaurant data.'),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'pictureId': pictureId,
+      'city': city,
+      'rating': rating,
+    };
+  }
 }

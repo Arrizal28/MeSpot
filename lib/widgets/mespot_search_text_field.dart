@@ -104,10 +104,7 @@ class _MespotSearchTextFieldState extends State<MespotSearchTextField> {
                                 Navigator.pushNamed(
                                   context,
                                   NavigationRoute.detailRoute.name,
-                                  arguments: {
-                                    'id': restaurant.id,
-                                    'pictureId': restaurant.pictureId,
-                                  },
+                                  arguments: restaurant,
                                 );
                               },
                             ),

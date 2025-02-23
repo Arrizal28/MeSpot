@@ -64,10 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.pushNamed(
                                 context,
                                 NavigationRoute.detailRoute.name,
-                                arguments: {
-                                  'id': restaurant.id,
-                                  'pictureId': restaurant.pictureId,
-                                },
+                                arguments: restaurant,
                               );
                             },
                           ),

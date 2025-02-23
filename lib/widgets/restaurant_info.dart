@@ -4,7 +4,7 @@ import 'package:mespot/style/colors/mespot_colors.dart';
 import 'package:mespot/style/typography/mespot_text_styles.dart';
 
 class RestaurantInfo extends StatelessWidget {
-  final Restaurant restaurantDetail;
+  final RestaurantDetail restaurantDetail;
 
   const RestaurantInfo({
     super.key,
