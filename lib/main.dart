@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/data/api/api_services.dart';
+import 'package:mespot/data/local/shared_preferences_setting_service.dart';
 import 'package:mespot/data/model/restaurant.dart';
 import 'package:mespot/provider/detail/add_review_provider.dart';
 import 'package:mespot/provider/detail/restaurant_detail_provider.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
+import 'package:mespot/provider/local/dark_mode_provider.dart';
 import 'package:mespot/provider/local/local_database_provider.dart';
+import 'package:mespot/provider/local/local_notification_provider.dart';
+import 'package:mespot/provider/local/notification_provider.dart';
+import 'package:mespot/provider/local/payload_provider.dart';
 import 'package:mespot/provider/main/index_nav_provider.dart';
 import 'package:mespot/provider/search/search_restaurant_provider.dart';
 import 'package:mespot/screen/addreview/add_review_screen.dart';
@@ -14,11 +19,30 @@ import 'package:mespot/screen/main/main_screen.dart';
 import 'package:mespot/screen/more/more_screen.dart';
 import 'package:mespot/screen/search/search_screen.dart';
 import 'package:mespot/data/local/local_database_service.dart.dart';
+import 'package:mespot/services/local_notification_service.dart';
+import 'package:mespot/services/workmanager_service.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/style/theme/mespot_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+
+  final notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  String route = NavigationRoute.mainRoute.name;
+  String? payload;
+
+  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+    final notificationResponse =
+        notificationAppLaunchDetails!.notificationResponse;
+    route = NavigationRoute.detailRoute.name;
+    payload = notificationResponse?.payload;
+  }
+
   runApp(
     MultiProvider(
       providers: [
@@ -56,36 +80,76 @@ void main() {
             context.read<LocalDatabaseService>(),
           ),
         ),
+        Provider(
+          create: (context) => SharedPreferencesSettingService(prefs),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DarkModeProvider(
+            context.read<SharedPreferencesSettingService>(),
+          ),
+        ),
+        Provider(
+          create: (context) => LocalNotificationService()
+            ..init()
+            ..configureLocalTimeZone(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationProvider(
+              context.read<SharedPreferencesSettingService>(),
+              context.read<LocalNotificationService>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LocalNotificationProvider(
+            context.read<LocalNotificationService>(),
+          )..requestPermissions(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PayloadProvider(
+            payload: payload,
+          ),
+        ),
+        Provider(
+          create: (context) => WorkmanagerService()..init(),
+        ),
       ],
-      child: const MyApp(),
+      child: MyApp(
+        initialRoute: route,
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MeSpot',
-      theme: MespotTheme.lightTheme,
-      darkTheme: MespotTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      initialRoute: NavigationRoute.mainRoute.name,
-      routes: {
-        NavigationRoute.mainRoute.name: (context) => const MainScreen(),
-        NavigationRoute.detailRoute.name: (context) => DetailScreen(
-              restaurant:
-                  ModalRoute.of(context)!.settings.arguments as Restaurant,
-            ),
-        NavigationRoute.searchRoute.name: (context) => const SearchScreen(),
-        NavigationRoute.addRoute.name: (context) => AddReviewScreen(
-              restaurantId:
-                  ModalRoute.of(context)!.settings.arguments as String,
-            ),
-        NavigationRoute.favoriteRoute.name: (context) => const FavoriteScreen(),
-        NavigationRoute.moreRoute.name: (context) => const MoreScreen(),
+    return Consumer<DarkModeProvider>(
+      builder: (context, darkModeProvider, child) {
+        return MaterialApp(
+          title: 'MeSpot',
+          theme: MespotTheme.lightTheme,
+          darkTheme: MespotTheme.darkTheme,
+          themeMode:
+              darkModeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          initialRoute: initialRoute,
+          routes: {
+            NavigationRoute.mainRoute.name: (context) => const MainScreen(),
+            NavigationRoute.detailRoute.name: (context) => DetailScreen(
+                  restaurant:
+                      ModalRoute.of(context)!.settings.arguments as Restaurant,
+                ),
+            NavigationRoute.searchRoute.name: (context) => const SearchScreen(),
+            NavigationRoute.addRoute.name: (context) => AddReviewScreen(
+                  restaurantId:
+                      ModalRoute.of(context)!.settings.arguments as String,
+                ),
+            NavigationRoute.favoriteRoute.name: (context) =>
+                const FavoriteScreen(),
+            NavigationRoute.moreRoute.name: (context) => const MoreScreen(),
+          },
+        );
       },
     );
   }

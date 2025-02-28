@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/data/model/restaurant.dart';
-import 'package:mespot/data/model/restaurant_detail_response.dart';
 import 'package:mespot/data/local/local_database_service.dart.dart';
 
 class LocalDatabaseProvider extends ChangeNotifier {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mespot/data/model/received_notification.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
+import 'package:mespot/provider/local/payload_provider.dart';
+import 'package:mespot/services/local_notification_service.dart';
 import 'package:mespot/widgets/restaurant_list.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/static/restaurant_list_result_state.dart';
@@ -15,12 +18,39 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void _configureSelectNotificationSubject() {
+    selectNotificationStream.stream.listen((String? payload) {
+      context.read<PayloadProvider>().payload = payload;
+      Navigator.pushNamed(context, NavigationRoute.detailRoute.name,
+          arguments: payload);
+    });
+  }
+
+  void _configureDidReceiveLocalNotificationSubject() {
+    didReceiveLocalNotificationStream.stream
+        .listen((ReceivedNotification receivedNotification) {
+      final payload = receivedNotification.payload;
+      context.read<PayloadProvider>().payload = payload;
+      Navigator.pushNamed(context, NavigationRoute.detailRoute.name,
+          arguments: receivedNotification.payload);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _configureSelectNotificationSubject();
+    _configureDidReceiveLocalNotificationSubject();
     Future.microtask(() {
       context.read<RestaurantListProvider>().fetchRestaurantList();
     });
+  }
+
+  @override
+  void dispose() {
+    selectNotificationStream.close();
+    didReceiveLocalNotificationStream.close();
+    super.dispose();
   }
 
   @override

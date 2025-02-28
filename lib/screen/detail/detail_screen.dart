@@ -59,8 +59,7 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           children: [
             Stack(
-              clipBehavior: Clip
-                  .none, // Penting! Agar widget child bisa keluar dari bounds Stack
+              clipBehavior: Clip.none,
               children: [
                 Hero(
                   tag: widget.restaurant.pictureId,
