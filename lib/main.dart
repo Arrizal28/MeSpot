@@ -7,9 +7,7 @@ import 'package:mespot/provider/detail/restaurant_detail_provider.dart';
 import 'package:mespot/provider/home/restaurant_list_provider.dart';
 import 'package:mespot/provider/local/dark_mode_provider.dart';
 import 'package:mespot/provider/local/local_database_provider.dart';
-import 'package:mespot/provider/local/local_notification_provider.dart';
-import 'package:mespot/provider/local/notification_provider.dart';
-import 'package:mespot/provider/local/payload_provider.dart';
+import 'package:mespot/provider/local/reminder_provider.dart';
 import 'package:mespot/provider/main/index_nav_provider.dart';
 import 'package:mespot/provider/search/search_restaurant_provider.dart';
 import 'package:mespot/screen/addreview/add_review_screen.dart';
@@ -20,7 +18,6 @@ import 'package:mespot/screen/more/more_screen.dart';
 import 'package:mespot/screen/search/search_screen.dart';
 import 'package:mespot/data/local/local_database_service.dart.dart';
 import 'package:mespot/services/local_notification_service.dart';
-import 'package:mespot/services/workmanager_service.dart';
 import 'package:mespot/static/navigation_route.dart';
 import 'package:mespot/style/theme/mespot_theme.dart';
 import 'package:provider/provider.dart';
@@ -29,19 +26,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-
-  final notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
-  String route = NavigationRoute.mainRoute.name;
-  String? payload;
-
-  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-    final notificationResponse =
-        notificationAppLaunchDetails!.notificationResponse;
-    route = NavigationRoute.detailRoute.name;
-    payload = notificationResponse?.payload;
-  }
 
   runApp(
     MultiProvider(
@@ -81,6 +65,11 @@ void main() async {
           ),
         ),
         Provider(
+          create: (context) => LocalNotificationService()
+            ..init()
+            ..requestPermissions(),
+        ),
+        Provider(
           create: (context) => SharedPreferencesSettingService(prefs),
         ),
         ChangeNotifierProvider(
@@ -88,40 +77,17 @@ void main() async {
             context.read<SharedPreferencesSettingService>(),
           ),
         ),
-        Provider(
-          create: (context) => LocalNotificationService()
-            ..init()
-            ..configureLocalTimeZone(),
-        ),
         ChangeNotifierProvider(
-          create: (context) => NotificationProvider(
-              context.read<SharedPreferencesSettingService>(),
-              context.read<LocalNotificationService>()),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => LocalNotificationProvider(
-            context.read<LocalNotificationService>(),
-          )..requestPermissions(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => PayloadProvider(
-            payload: payload,
-          ),
-        ),
-        Provider(
-          create: (context) => WorkmanagerService()..init(),
+          create: (context) => ReminderProvider()..initPrefs(),
         ),
       ],
-      child: MyApp(
-        initialRoute: route,
-      ),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final String initialRoute;
-  const MyApp({super.key, required this.initialRoute});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +99,7 @@ class MyApp extends StatelessWidget {
           darkTheme: MespotTheme.darkTheme,
           themeMode:
               darkModeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          initialRoute: initialRoute,
+          initialRoute: NavigationRoute.mainRoute.name,
           routes: {
             NavigationRoute.mainRoute.name: (context) => const MainScreen(),
             NavigationRoute.detailRoute.name: (context) => DetailScreen(

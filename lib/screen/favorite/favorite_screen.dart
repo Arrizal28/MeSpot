@@ -50,7 +50,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         arguments: restaurant,
                       );
 
-                      // Refresh data setelah kembali
                       context
                           .read<LocalDatabaseProvider>()
                           .loadAllRestaurantValue();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mespot/provider/local/dark_mode_provider.dart';
-import 'package:mespot/provider/local/notification_provider.dart';
-import 'package:mespot/services/workmanager_service.dart';
+import 'package:mespot/provider/local/reminder_provider.dart';
 import 'package:provider/provider.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -26,45 +25,18 @@ class _MoreScreenState extends State<MoreScreen> {
             );
           },
         ),
-        Consumer<NotificationProvider>(
-          builder: (context, notificationProvider, child) {
+        Consumer<ReminderProvider>(
+          builder: (context, reminderProvider, child) {
             return SwitchListTile(
               title: const Text('Daily Reminder'),
-              value: notificationProvider.isDailyReminderEnabled,
+              value: reminderProvider.isReminderOn,
               onChanged: (value) async {
-                if (value) {
-                  // Minta izin notifikasi sebelum mengaktifkan Daily Reminder
-                  await _requestPermission();
-                }
-                notificationProvider.toggleDailyReminder(value);
-
-                if (value) {
-                  // _runBackgroundPeriodicTask();
-                  _runBackgroundOneOffTask();
-                } else {
-                  _cancelAllTaskInBackground();
-                }
+                reminderProvider.toggleReminder(value);
               },
             );
           },
         ),
       ],
     ));
-  }
-
-  Future<void> _requestPermission() async {
-    context.read<NotificationProvider>().requestPermissions();
-  }
-
-  void _runBackgroundPeriodicTask() async {
-    context.read<WorkmanagerService>().runPeriodicTask();
-  }
-
-  void _runBackgroundOneOffTask() async {
-    context.read<WorkmanagerService>().scheduleDailyWork();
-  }
-
-  void _cancelAllTaskInBackground() async {
-    context.read<WorkmanagerService>().cancelAllTask();
   }
 }

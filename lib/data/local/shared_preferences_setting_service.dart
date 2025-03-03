@@ -1,4 +1,3 @@
-import 'package:mespot/data/model/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesSettingService {

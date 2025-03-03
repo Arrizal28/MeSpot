@@ -34,7 +34,6 @@ class LocalDatabaseProvider extends ChangeNotifier {
     }
   }
 
-  // menambahkan fungsi untuk memuat keseluruhan data Restaurant
   Future<void> loadAllRestaurantValue() async {
     try {
       _restaurantList = await _service.getAllItems();
@@ -47,7 +46,6 @@ class LocalDatabaseProvider extends ChangeNotifier {
     }
   }
 
-  // menambahkan fungsi untuk memuat data Restaurant berdasarkan nilai id-nya
   Future<void> loadRestaurantValueById(String id) async {
     try {
       _restaurant = await _service.getItemById(id);
@@ -59,7 +57,6 @@ class LocalDatabaseProvider extends ChangeNotifier {
     }
   }
 
-  // menambahkan fungsi untuk menghapus data Restaurant berdasarkan nilai id-nya
   Future<void> removeRestaurantValueById(String id) async {
     try {
       await _service.removeItem(id);

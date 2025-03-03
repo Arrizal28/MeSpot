@@ -54,7 +54,7 @@ class RestaurantList extends StatelessWidget {
                 children: [
                   Text(restaurant.name,
                       style: MespotTextStyles.titleLarge
-                          .copyWith(fontWeight: FontWeight.bold)),
+                          .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
                   Row(
                     children: [
                       const Icon(Icons.star, color: Colors.amber, size: 24),

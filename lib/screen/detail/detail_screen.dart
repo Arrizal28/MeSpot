@@ -9,7 +9,6 @@ import 'package:mespot/widgets/icon_favorite.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
-  // final Map<String, dynamic> args;
   final Restaurant restaurant;
   const DetailScreen({
     super.key,
@@ -75,8 +74,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom:
-                      -20, // Nilai negatif untuk membuat icon keluar dari image
+                  bottom: -20,
                   right: 20,
                   child: Container(
                     padding: const EdgeInsets.all(8),
