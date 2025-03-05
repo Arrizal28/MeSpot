@@ -78,7 +78,9 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => ReminderProvider()..initPrefs(),
+          create: (context) => ReminderProvider()
+            ..init()
+            ..configureLocalTimeZone(),
         ),
       ],
       child: MyApp(),
